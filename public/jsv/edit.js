@@ -1,5 +1,5 @@
 
-/*Author - Andrii Androsowich*/
+/*Author - Andrii Androsovich*/
 window.onload = function () {
   // Example starter JavaScript for disabling form submissions if there are invalid fields
   (function () {
