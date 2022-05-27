@@ -1,0 +1,52 @@
+body{
+    background-color: #eeffee !important;
+}
+.link-custom{
+    color: #400000 !important;
+    background-color:#F0E68C !important;
+    border: 2px solid #FF6347 !important;
+    transition: all 0.5s !important;
+    cursor: pointer !important;
+    border-radius: 5px;
+     
+}
+.link-custom:hover{
+    background-color: #FFA500 !important;
+   color:#400000 !important;
+}
+.h2,.h4{
+    color:#005000 !important;
+}
+
+.fadeInDown {
+-webkit-animation-name: fadeInDown;
+animation-name: fadeInDown;
+-webkit-animation-duration: 1s;
+animation-duration: 1s;
+-webkit-animation-fill-mode: both;
+animation-fill-mode: both;
+}
+@-webkit-keyframes fadeInDown {
+0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+}
+100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+}
+}
+@keyframes fadeInDown {
+0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+}
+100% {
+    opacity: 1;
+    -webkit-transform: none;
+    transform: none;
+    }
+} 
