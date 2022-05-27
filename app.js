@@ -1,4 +1,4 @@
-/*Author - Andrii Androsowich*/
+/*Author - Andrii Androsovich*/
 const path = require('path')
 const express = require('express')
 const cookieParser = require('cookie-parser')
