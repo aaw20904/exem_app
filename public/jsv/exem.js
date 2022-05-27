@@ -1,4 +1,4 @@
-
+/*Author - Andrii Androsovich*/
 window.onload = function () {
   main()
 }
