@@ -692,7 +692,7 @@ class AdminRoutes {
 
         dbc.query(`UPDATE responses SET qKey=${ticket.right_qKey} WHERE qId='${ticket.qId}';`, (err, rows) => {
           if (err) {
-            reject(err.code)
+            reject(err)
           }
           resolve(rows)
         })
@@ -708,7 +708,7 @@ class AdminRoutes {
     return new Promise((resolve, reject) => {
       dbc.query('COMMIT', (err, rows) => {
         if (err) {
-          reject(err.code)
+          reject(err)
         }
         resolve({ status: 'succ', result: rows })
       })
@@ -720,7 +720,7 @@ class AdminRoutes {
     return new Promise((resolve, reject) => {
       dbc.query(`DELETE FROM question WHERE qId='${qId}'`, (err, rows) => {
         if (err) {
-          reject(err.code)
+          reject(err)
         }
         resolve(rows)
       })
