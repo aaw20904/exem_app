@@ -1018,7 +1018,7 @@ app.post('/admin', async (req, res) => {
         data = await adminP.getUsers()
       } catch (e) {
         res.status(500)
-        res.json({ status: 'fail', result: e })
+        res.json({ status: 'fail', result: e.code })
         return
       }
       res.status(200)
