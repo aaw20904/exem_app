@@ -495,7 +495,7 @@ class TableManager {
       const dataToSave = {
         qId,
         responses,
-        rightqKey,
+        right_qKey,
         introduction
       }
       let res
