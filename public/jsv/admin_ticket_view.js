@@ -8,12 +8,15 @@ async function start () {
   const tableInst = new UsersLoginList()
   const pNode = document.querySelector('.parentNode')
   let tblData
+  let spinner = document.querySelector('.mySpinner')
   try {
     tblData = await net.getUsersInfo()
   } catch (e) {
+    spinner.classList.add('hideElem')
     alert('Error connection!')
     return
   }
+  spinner.classList.add('hideElem')
   const tbl = tableInst.createTable(tblData.result)
   pNode.appendChild(tbl)
   const btnUpdateKey = document.querySelector('.bUpdateKeys')
@@ -21,6 +24,7 @@ async function start () {
   const btnClearExem = document.querySelector('.bClearRes')
   const btnRemoveUser = document.querySelector('.bRemoveUser')
 
+  
   btnSetThreshold.addEventListener('click', onUpdateTrigger)
   btnUpdateKey.addEventListener('click', onUpdateKey)
   btnClearExem.addEventListener('click', onClearExem)
