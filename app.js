@@ -760,7 +760,7 @@ class Exems {
   }
 
   /** add a timeout to user in according to an equation:  currenttime + 10 minutes */
-  async pSetUsrTime (usrId, tablename = 'exemTime') {
+  async pSetUsrTime (usrId, tablename = 'exemtime') {
     const dbc = this.data.get(this).dbConnect
     return new Promise((resolve, reject) => {
       if (!usrId) {
@@ -820,7 +820,7 @@ class Exems {
   async pGetUsrTimeout (usrId) {
     const dbc = this.data.get(this).dbConnect
     return new Promise((resolve, reject) => {
-      dbc.query(`SELECT startTime FROM exemTime WHERE usrId='${usrId}'`, (err, rows) => {
+      dbc.query(`SELECT startTime FROM exemtime WHERE usrId='${usrId}'`, (err, rows) => {
         if (err) {
           reject({ status: 'fail', result: err })
         } else {
