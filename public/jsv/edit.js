@@ -460,8 +460,8 @@ class TableManager {
       const responses = {}
       const table = evt.target.parentNode.parentNode.querySelector('table')
       const tBody = evt.target.parentNode.parentNode.querySelector('tbody')
-      let rightqKey = tBody.querySelector('.trueResponse')
-      rightqKey = rightqKey.getAttribute('data-table-row-key')
+      let right_qKey = tBody.querySelector('.trueResponse')
+      right_qKey = right_qKey.getAttribute('data-table-row-key')
       let children = tBody.children
       children = Array.prototype.slice.call(children)
       children.forEach((val, i) => {
