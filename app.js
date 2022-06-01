@@ -28,12 +28,28 @@ const favIcon = fs.readFileSync('./favicon.ico')
 /// / 1. Create MySQL Connection
 
 const connectionDB = mysql.createConnection({
+  user: 'tester',
+  password: databasePassword,
+  host: databaseHost,
+  database: databaseName,
+  ssl:{
+    ca: fs.readFileSync('./client.csr'),
+    key: fs.readFileSync('./client.key.pem'),
+    rejectUnauthorized: false
+  }
+
+})
+
+/******not secure- 
+const connectionDB = mysql.createConnection({
   user: 'root',
   password: databasePassword,
   host: databaseHost,
   database: databaseName
 
-})
+})****/
+
+
 
 class UserRoute {
   constructor (DBconnection) {
