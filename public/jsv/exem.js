@@ -653,6 +653,6 @@ class DbCommunicator {
     } catch (e) {
       return { status: 'fail', result: e }
     }
-    return await this.convertStatus(response)
+    return await this.convertStatus(response) 
   }
 }
