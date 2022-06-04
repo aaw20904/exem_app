@@ -75,7 +75,7 @@
                 color:#500000 !important;
             }
         .topElement{
-            z-index: 100 !important;
+              z-index: 100 !important;   
         }
         .clockNode{
             color: #406040 !important;
@@ -128,6 +128,11 @@
         .bounce-in-top {
             -webkit-animation: bounce-in-top 1.5s both;
                     animation: bounce-in-top 1.5s both;
+        }
+
+        .ticketPos{
+                position:relative;
+                grid-area:1/1/2/2;
         }
 
         /* ----------------------------------------------
