@@ -171,15 +171,24 @@ class TableManager {
       const tbl = this.createTableWithSelect(val)
       // wrap a table
       const wrapped = this.createTicketWrapper(tbl, val.introduction)
-
       // push into an array
       ticketWrappers.push(wrapped)
     })
+    
+   
+    
 
     /** embed wrapped tickets into the container */
-    ticketWrappers.forEach(val => {
+    for(let y = 0; y < ticketWrappers.length; y++) {
+      ticketsContainer.appendChild(ticketWrappers[ (ticketWrappers.length - 1) - y ] )
+    }
+
+    /*ticketWrappers.forEach((val,index) => {
+      let oldAttr = val.getAttribute('style');
+      val.setAttribute('style',`z-index:${(ticketWrappers.length - index)}`);
+      
       ticketsContainer.appendChild(val)
-    })
+    })*/
 
     ticketWrappers[0].classList.add('topElement')
 
@@ -217,14 +226,23 @@ class TableManager {
       if (scrollIndex >= (ticketWrappers.length - 1)) {
         return
       }
+
+      
       /** hide prev node */
       ticketWrappers[scrollIndex].classList.remove('topElement')
       ticketWrappers[scrollIndex].classList.remove('fadeInLeft')
+      window.setTimeout(()=>{
+        ///leaf through
+              leafThrough(ticketWrappers,scrollIndex);
+      },1200)
+     
       /** add index */
       scrollIndex++
+     
       /** and show new item */
       ticketWrappers[scrollIndex].classList.add('topElement')
       ticketWrappers[scrollIndex].classList.add('fadeInLeft')
+       
       /** set progress */
       const progressVal = ((100 / ticketWrappers.length) * (scrollIndex + 1)) | 0
       subprogress.setAttribute('style', `width:${progressVal}%`)
@@ -239,6 +257,8 @@ class TableManager {
       ticketWrappers[scrollIndex].classList.remove('fadeInLeft')
       /** add index */
       scrollIndex--
+       ///leaf through
+      leafThrough(ticketWrappers,scrollIndex)
       /** and show new item */
       ticketWrappers[scrollIndex].classList.add('topElement')
       ticketWrappers[scrollIndex].classList.add('fadeInLeft')
@@ -246,6 +266,34 @@ class TableManager {
       const progressVal = ((100 / ticketWrappers.length) * (scrollIndex + 1)) | 0
       subprogress.setAttribute('style', `width:${progressVal}%`)
     }
+
+    function leafThrough(ticketsArray,ticketIndex){
+      let pointer = 0; 
+      let zIndex = ticketsArray.length;
+  
+      //is the last or the first ticket achived?
+      if ((ticketIndex <= (ticketsArray.length - 1)) && (ticketIndex >= 0) ){
+        //a) - asiign z-ind to elems from ticketIndex to the last elem
+        pointer = ticketIndex; 
+        while (pointer <= (ticketsArray.length - 1) ) {
+          ticketsArray[pointer].setAttribute('style',`z-index:${zIndex}`);
+          zIndex--;
+          pointer++
+        } 
+        //b)assign z-index to elems from the first to the ticketIndex
+        pointer = 0;
+        while( pointer < ticketIndex ) {
+          ticketsArray[pointer].setAttribute('style',`z-index:${zIndex}`);
+          zIndex--;
+          pointer++
+        }
+
+      }
+    }
+
+    
+
+  
 
     return { node: containerNode, startTime: ticketsFromServer.startTime, timeOutMs: ticketsFromServer.timeOutMs }
   }
@@ -328,8 +376,9 @@ class TableManager {
   createTicketWrapper (tableNode, introduction = '123', serverCallback = async () => { return 200 }) {
     const networkComm = this._communicator
     const wrapper = document.createElement('article')
-    wrapper.setAttribute('class', 'd-flex flex-column p-3 align-items-center justify-content-center ticketWrapWarn')
-    wrapper.setAttribute('style', 'grid-area:1/1/2/2')
+    wrapper.setAttribute('class', 'ticketPos d-flex flex-column p-3 align-items-center justify-content-center ticketWrapWarn')
+     
+    //'
     // ticket ID 1-st part
     const ticketIdN = document.createElement('div')
     ticketIdN.setAttribute('class', 'd-flex justify-content-center align-itmms-center ')
