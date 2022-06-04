@@ -21,7 +21,7 @@
         <form action="/register" method="post" enctype="application/x-www-form-urlencoded" class=" p-3 border border-dark d-flex align-items-center flex-column justify-content-center row g-3 needs-validation" novalidate>
            <article> 
             <label for="usrId" class="form-label">UserID:</label>
-            <input type="text" maxlength="60" inputmode="verbatim" name="usrId" class="form-control" id="usrId" value="*" required>
+            <input type="text" maxlength="60" inputmode="verbatim" name="usrId" class="form-control" id="usrId" value=<%-usrId %> required>
             <div class="valid-feedback">
               Looks good!
             </div>
@@ -31,7 +31,7 @@
            </article>  
            <article> 
             <label for="name" class="form-label">Name:</label>
-            <input type="text" maxlength="60" inputmode="verbatim" name="name" class="form-control" id="name" value="*" required>
+            <input type="text" maxlength="60" inputmode="verbatim" name="name" class="form-control" id="name" value=<%-name %> required>
             <div class="valid-feedback">
               Looks good!
             </div>
@@ -41,7 +41,7 @@
           </article> 
           <article> 
             <label for="password" class="form-label">Password:</label>
-            <input type="text" maxlength="10" inputmode="verbatim" name="password" class="form-control" id="password" value="*" required>
+            <input type="password" maxlength="10" inputmode="verbatim" name="password" class="form-control" id="password" value=<%-password %> required>
             <div class="valid-feedback">
               Looks good!
             </div>
