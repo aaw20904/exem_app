@@ -14,7 +14,7 @@ const https = require('https')
 // const cors = require('cors')
 const { fail } = require('assert')
 
-const databaseHost = 'localhost'
+const databaseHost = '18.130.130.188'
 const databasePassword = '65535258'
 const databaseName = 'session_learn'
 const exemDurationMs = 300000 // 5 min
@@ -28,13 +28,13 @@ const favIcon = fs.readFileSync('./favicon.ico')
 /// / 1. Create MySQL Connection
 
 const connectionDB = mysql.createConnection({
-  user: 'tester',
+  user: 'client',
   password: databasePassword,
   host: databaseHost,
   database: databaseName,
   ssl:{
-    ca: fs.readFileSync('./client.csr'),
-    key: fs.readFileSync('./client.key.pem'),
+    ca: fs.readFileSync('./client.crt'),
+    key: fs.readFileSync('./client.key'),
     rejectUnauthorized: false
   }
 
@@ -1257,7 +1257,7 @@ async function checkCookie (req, res, usrRoute = usersAuthProcedures) {
       res.status(500)
       res.render('./503.ejs', { err: e })
     }
-    res.cookie('sessionId', cryptoCookie.result.toString('hex'))
+    res.cookie('sessionId', cryptoCookie.result.toString('hex'),{ sameSite: 'None',secure:true })
     /** if a user not authorized - must be an authorization(login) */
   }
 
@@ -1302,7 +1302,7 @@ async function checkCookieJSON (req, res, usrRoute = usersAuthProcedures) {
       res.status(500)
       res.render('./503.ejs', { err: e })
     }
-    res.cookie('sessionId', cryptoCookie.result.toString('hex'))
+    res.cookie('sessionId', cryptoCookie.result.toString('hex'),{ sameSite: 'None',secure:true })
   }
 
   return usrInfo
@@ -1394,7 +1394,7 @@ async function onLoginProc (req, res, UserRouteInst) {
   if (temp.status === 'succ') {
     /** apply a cookie and sent a response */
     res.status(200);
-    res.cookie('sessionId', temp.result.toString('hex'))
+    res.cookie('sessionId', temp.result.toString('hex'),{ sameSite: 'None' ,secure:true})
     res.redirect('/')
     return
   }
@@ -1472,7 +1472,7 @@ async function beginRegistration (req, res, httpstatus = 200, captchaInstance, U
   /** hash the one */
   const regCookie = await UserRouteInst.hashPassword(cap.text)
   /** set a cookie **/
-  res.cookie('regCookie', regCookie)
+  res.cookie('regCookie', regCookie, { sameSite: 'None' ,secure:true})
  
   /** set a stats code **/
   res.status(httpstatus)
@@ -1488,11 +1488,11 @@ app.listen(3000, () => {
 
 const httpsOptions = {
   key: fs.readFileSync('./server.key'),
-  cert: fs.readFileSync('./server.cert')
+  cert: fs.readFileSync('./server.crt')
 
 }
 
-https.createServer(httpsOptions, app).listen(3000, () => console.log('listening :3000...'))
+https.createServer(httpsOptions, app).listen(443, () => console.log('listening :443...'))
 
 const exems = new Exems(connectionDB)
 const adminP = new AdminRoutes(connectionDB)
