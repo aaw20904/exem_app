@@ -1459,15 +1459,15 @@ async function onRegisterPost (req, res, UserRouteInst) {
     // 1)remove a captcha from the DB
     // await usersAuthProcedures.pClearCaptcha(req.cookies.regCookie);
     // 2)
-    await beginRegistration(req, res, 403, svgCaptcha, UserRouteInst, 'incorrect captcha')
+    await beginRegistration(req, res, 403, svgCaptcha, UserRouteInst, 'incorrect captcha',{usrId: req.body.usrId, password: req.body.password, name: req.body.name})
   }
 }
 
 /** *REnder a new registration form.Generate a regCookie and  a captcha.When the one has generated - push a result into DB */
-async function beginRegistration (req, res, httpstatus = 200, captchaInstance, UserRouteInst, errString = '') {
+async function beginRegistration (req, res, httpstatus = 200, captchaInstance, UserRouteInst, errString = '', regParams=null) {
   
   /** generate a new captcha */
-  const cap = captchaInstance.create({ size: 8, noise: 3 })
+  const cap = captchaInstance.create({ size: 5, noise: 3 })
 
   /** hash the one */
   const regCookie = await UserRouteInst.hashPassword(cap.text)
@@ -1477,7 +1477,13 @@ async function beginRegistration (req, res, httpstatus = 200, captchaInstance, U
   /** set a stats code **/
   res.status(httpstatus)
   /** generate a page from a template */
-  res.render('register.ejs', { captcha: cap.data, err: errString })
+  if(!regParams) {
+    res.render('register.ejs', { captcha: cap.data, err: errString, usrId:'*', name:'*', password:'*' })
+    return;
+  } else {
+    res.render('register.ejs', { captcha: cap.data, err: errString, usrId:regParams.usrId, name:regParams.name, password:regParams.password })
+  }
+  
   // 2)Render a registration page
 }
 
