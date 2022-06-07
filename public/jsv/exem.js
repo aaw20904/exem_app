@@ -18,7 +18,7 @@ async function main () {
   timerx(table.startTime, table.timeOutMs)
   
   spinner.classList.add('hideElement')
-  console.log(Date.now() - timestamp)
+  
 }
 
 function padTo2Digits (num) {
@@ -42,14 +42,16 @@ function timerx (datetime = null, timeOutMs = 3600000) {
     return
   }
   const date1 = new Date(datetime)
-  console.log(date1)
+  
   if ((Date.now() - date1.getTime()) > timeOutMs) {
     headernode.innerText = 'The time has gone!'
     return
   }
 
+  const ellapsedTmp = Date.now() - date1.getTime();
+  headernode.innerText = convertMsToMinutesSeconds(timeOutMs - ellapsedTmp)
   const procId = window.setInterval(timerHandler, 1000)
-  headernode.innerText = '----'
+  
   function timerHandler () {
     const ellapsed = Date.now() - date1.getTime()
     if (ellapsed > timeOutMs) {
@@ -60,7 +62,7 @@ function timerx (datetime = null, timeOutMs = 3600000) {
     }
   }
 
-  headernode.innerText = new Date().toLocaleTimeString()
+
 }
 
 class TableManager {
@@ -120,7 +122,7 @@ class TableManager {
       return null
     }
 
-    console.log(ticketsFromServer.result)
+   
 
     tickets = ticketsFromServer.result
 
@@ -139,7 +141,7 @@ class TableManager {
 
     const clockNode = document.createElement('h2')
     clockNode.setAttribute('class', 'h3 clockNode mainColor')
-    clockNode.innerText = new Date().toLocaleTimeString()
+    clockNode.innerText = '--:--'
 
     clockAndLink.appendChild(clockNode)
     clockAndLink.appendChild(lnkNode)
@@ -428,7 +430,7 @@ class TableManager {
       // show a spinner
       const progressCircle = document.querySelector('.mySpinner')
       progressCircle.classList.remove('hideElement')
-      console.log(questionKey, questionId)
+       
       // a row wich has highlight
       const rowNode = wrapperX.querySelector('.trueResponse')
       // let wrapper =  evt.target.parentNode.parentNode.parentNode.parentNode;
