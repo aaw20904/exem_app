@@ -4,6 +4,8 @@ window.onload = function () {
 }
 
 async function start () {
+
+  
   const net = new DbCommunicator()
   const tableInst = new UsersLoginList()
   const pNode = document.querySelector('.parentNode')
@@ -23,12 +25,14 @@ async function start () {
   const btnSetThreshold = document.querySelector('.bSetThreshold')
   const btnClearExem = document.querySelector('.bClearRes')
   const btnRemoveUser = document.querySelector('.bRemoveUser')
+  const btnClearFail = document.querySelector('.bClearFail')
 
   
   btnSetThreshold.addEventListener('click', onUpdateTrigger)
   btnUpdateKey.addEventListener('click', onUpdateKey)
   btnClearExem.addEventListener('click', onClearExem)
   btnRemoveUser.addEventListener('click', onRemoveUser)
+  btnClearFail.addEventListener('click',onClearAttempts)
 
   async function onRemoveUser () {
     const message = document.querySelector('.statusNode')
@@ -53,6 +57,39 @@ async function start () {
       }
       message.innerText = resultat.result
       tableBody.removeChild(row)
+      setStatusString(true)
+      spinner.classList.add('hideItem')
+    } else {
+      alert('please select a user!')
+    }
+  }
+
+
+  async function onClearAttempts(evt) {
+    const message = document.querySelector('.statusNode')
+    const tableBody = document.querySelector('tbody')
+    const row = tableBody.querySelector('.selectedRow')
+    if (row) {
+      const key = row.getAttribute('data-tbl-rk')
+     /* if (key === 'administrator') {
+        alert('Can`t remove admin!')
+        return
+      }*/
+      const spinner = document.querySelector('.mySpinner')
+      spinner.classList.remove('hideItem')
+      let resultat;
+      let actRes;
+      try {
+        actRes = await net.clearAtt(key);
+        resultat = await net.getUsersInfo()
+      } catch (e) {
+        message.innerText = e
+        setStatusString(false)
+        spinner.classList.add('hideItem')
+        return
+      }
+      tableInst.updateTable(resultat.result,tableBody);
+      message.innerText = actRes.result;
       setStatusString(true)
       spinner.classList.add('hideItem')
     } else {
@@ -152,6 +189,37 @@ async function start () {
 
 class UsersLoginList {
   constructor () {
+
+  }
+
+
+
+  updateTable (tableData =  [
+    { usrId: 'u1', name: '2', sessionId: '3', fail_login:0 },
+    { usrId: 'u2', name: '5', sessionId: '6', fail_login:1 },
+    { usrId: 'u3', name: '8', sessionId: '9', fail_login:2 },
+    { usrId: 'u4', name: '2', sessionId: '3', fail_login:3 },
+    
+  ], tbody) {
+    //tbody
+   
+    if(!tbody) {
+      return null;
+    }
+
+    let keysOfColumns = []
+    keysOfColumns = Object.getOwnPropertyNames(tableData[0]);
+
+    let tableRows = Array.prototype.slice.call(tbody.childNodes);
+    //iterate all the strings
+    tableRows.forEach((oneRow, index)=>{
+      //convert a one string to an Array
+      oneRow = Array.prototype.slice.call(oneRow.childNodes);
+      //process a one string - update data
+      keysOfColumns.forEach((cellKey, subindex)=>{
+        oneRow[subindex].innerText = tableData[index][cellKey];
+      })
+    })
 
   }
 
@@ -295,6 +363,12 @@ class DbCommunicator {
   async removeUser (usrId = '') {
     return await this._baseRequest({ action: 'rmusr', usrId })
   }
+
+  async clearAtt (usrId = '') {
+    return await this._baseRequest({ action: 'clratt', usrId })
+  }
+
+
 
   async _baseRequest (reqBody = { a: '' }) {
     const currentUrl = new URL(document.location.href)
