@@ -171,6 +171,7 @@ CREATE TABLE `users` (
   `name` varchar(64) DEFAULT NULL,
   `hashedPassword` blob,
   `sessionId` varchar(32) DEFAULT NULL,
+  `fatt` int DEFAULT '0',
   PRIMARY KEY (`usrId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -181,7 +182,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('administrator','administrator',_binary '$2b$10$f.V/MRQOMqxiYq9gB93maOLhsos1jcbcrs7clNTGT91OwaJ9xoksq','active'),('user1','Ivanoff',_binary '$2b$10$ppzS/64XGCbmr1KkiK3rMuZ50hBR51iVUUq8eefQhj.LU1i/8xxlG',NULL),('user2','Petroff',_binary '$2b$10$.QjchyuPKQE7u8iSNMPhEOB6huzVeXVtN1C/F5e5dJwCmyckEh5z6',NULL),('user3','vasya',_binary '$2b$10$3LKM0twEolUa0ONcwJ8POuO6Y5SDhPosbPPGo92aaVlnI.nN9bcTm',NULL);
+INSERT INTO `users` VALUES ('administrator','administrator',_binary '$2b$10$f.V/MRQOMqxiYq9gB93maOLhsos1jcbcrs7clNTGT91OwaJ9xoksq','active',0),('user1','Ivanoff',_binary '$2b$10$ppzS/64XGCbmr1KkiK3rMuZ50hBR51iVUUq8eefQhj.LU1i/8xxlG',NULL,0),('user2','Petroff',_binary '$2b$10$.QjchyuPKQE7u8iSNMPhEOB6huzVeXVtN1C/F5e5dJwCmyckEh5z6',NULL,0),('user3','vasya',_binary '$2b$10$3LKM0twEolUa0ONcwJ8POuO6Y5SDhPosbPPGo92aaVlnI.nN9bcTm',NULL,0);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -221,4 +222,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-05-26 22:50:00
+-- Dump completed on 2022-06-07 13:32:57
