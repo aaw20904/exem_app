@@ -365,7 +365,7 @@ class TableManager {
     /** II)create an info string */
     const infoStr = document.createElement('div')
     infoStr.setAttribute('class', 'h6 text-danger infoText m-2')
-    infoStr.innerText = 'The question has not been responded.Please select by clicking/touching '
+    infoStr.innerText = 'The question has not been saved '
     /** III) create buttons */
     const bottomBtns = document.createElement('div')
     bottomBtns.setAttribute('class', 'd-flex flex-row justify-content-end m-2 w-100 align-items-center')
