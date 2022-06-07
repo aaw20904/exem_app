@@ -8,19 +8,24 @@ const app = express()
 const svgCaptcha = require('svg-captcha')
 // const helmet = require('helmet')
 const fs = require('fs')
+
 const https = require('https')
 // Importing Utilities module
 // const util = require('util')
 // const cors = require('cors')
 const { fail } = require('assert')
 
-const databaseHost = '18.130.130.188'
+const databaseHost = 'localhost'
 const databasePassword = '65535258'
 const databaseName = 'session_learn'
 const exemDurationMs = 300000 // 5 min
 const cookieTimeOutMs = 60000// 1min
+const USER_MAX_FAIL_ATTEMPTS = 5; //maximal user`s fail attempts to log in. The table row is users.fail. ! Please clear this row regulary!
+
+
 
 const favIcon = fs.readFileSync('./favicon.ico')
+const exclamationSound = fs.readFileSync('./exclamation.mp3')
 // Диакон Андрей Кураев
 // https://www.youtube.com/watch?v=QueWF65XoIA&ab_channel=%D0%A5%D0%BE%D0%B4%D0%BE%D1%80%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B8%D0%B9LIVE
 /// https://www.npmjs.com/package/svg-captcha
@@ -28,7 +33,7 @@ const favIcon = fs.readFileSync('./favicon.ico')
 /// / 1. Create MySQL Connection
 
 const connectionDB = mysql.createConnection({
-  user: 'client',
+  user: 'root',
   password: databasePassword,
   host: databaseHost,
   database: databaseName,
@@ -244,7 +249,7 @@ class UserRoute {
   async getUsr (usrId, tablename) {
     const mysql = this.data.get(this).connDB
     return new Promise((resolve, reject) => {
-      mysql.query(`SELECT name, hashedPassword, sessionId FROM ${tablename} WHERE usrId='${usrId}'`, (err, rows) => {
+      mysql.query(`SELECT name, hashedPassword, sessionId, fatt FROM ${tablename} WHERE usrId='${usrId}'`, (err, rows) => {
         if (err) { reject({ status: 'fail', result: err.code }) }
         if (rows.length === 1) {
           resolve({ status: 'succ', data: rows[0] })
@@ -389,18 +394,29 @@ class UserRoute {
    resolve a object: {status:'fail'} */
   /* a @cryptoPassword means a password that exists together with an asymmetric Key */
   async pStartSession (x = { usrId: '', password: '' }, cryptoPassword) {
-    /* search a user in the DB */
-    /*   if (! await this.isUserInDB(x.usrId,'users') ) {
-              return {status:'fail',result:'bad credantails'}
-           } */
+
+    const mysql = this.data.get(this).connDB;
     /** read user data */
     const usrData = await this.getUsr(x.usrId, 'users')
-    /** checking a user */
+    /** checking of a user */
     if (usrData.status === 'fail') {
       return { status: 'fail', result: 'Incorrect userId or Password!' }
     }
+    /**is a user locked or not? */
+    if( usrData.data.fatt > USER_MAX_FAIL_ATTEMPTS ) {
+      return { status: 'fail', result: 'You are locked. Please contact with the Administrator' }
+    }
     /** checking of a password */
     if (!await this.comparePassword(x.password, usrData.data.hashedPassword.toString('utf-8'))) {
+      /**checking credantails.If a user exists - but the password is fail - write into a users.fatt (fail attemption) DB`s row*/
+          await new Promise((resolve, reject) => {
+              mysql.query(`UPDATE users SET fatt = fatt + 1 WHERE usrId ='${x.usrId}'`,(err,rows)=>{
+                if (err) {
+                    reject({status:'fail', result:'DB error!'})
+                  } 
+                  resolve(rows);
+              })
+          });
       return { status: 'fail', result: 'bad credantails hash!' }
     }
     /** set session to active  */
@@ -425,10 +441,10 @@ class AdminRoutes {
     })
   }
 
-  async getUsers () {
+  async getUsers() {
     const dbc = this.data.get(this).dbConnect
     return new Promise((resolve, reject) => {
-      dbc.query('SELECT usrId, name, sessionId FROM users', (err, rows) => {
+      dbc.query('SELECT usrId, name, sessionId, fatt AS fail_login FROM users', (err, rows) => {
         if (err) {
           reject(err)
         } else {
@@ -450,6 +466,21 @@ class AdminRoutes {
       })
     })
   }
+
+  async clearAttempts (usrId) {
+    const dbc = this.data.get(this).dbConnect
+    return new Promise((resolve, reject) => {
+      dbc.query(`UPDATE users SET fatt=0  WHERE usrId='${usrId}'`, (err, rows) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(rows)
+        }
+      })
+    })
+  }
+
+
 
   async pGetScoreTrigger () {
     const dbc = this.data.get(this).dbConnect
@@ -873,6 +904,7 @@ const usersAuthProcedures = new UserRoute(connectionDB)
 const exemProc = new Exems(connectionDB)
 app.set('view engine', 'ejs')
 
+
 app.get('/favicon.ico', (req, res) => {
   res.status(200)
   res.type = 'image/x-icon'
@@ -1051,6 +1083,18 @@ app.post('/admin', async (req, res) => {
       }
       res.status(204).end()
       return
+    
+      case 'clratt':
+        try {
+          await adminP.clearAttempts(req.body.usrId)
+        } catch (e) {
+          res.status(500)
+          res.json(e)
+          return
+        }
+        res.status(200);
+        res.json({status:'succ',result:'Cleared successfully!'});
+        return
 
     default:
       res.status(400).end()
