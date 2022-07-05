@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="../cssv/operation_result.css" crossorigin="anonymous"> 
+    <title>Result</title>
+    <style>
+        body{
+             background-color:<%-bckg%>;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+            height:100vh;
+        }
+
+        h2{
+            color:darkslategray;
+            text-align: center;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 26px;
+        }
+
+        a{
+            padding: 12px;
+            margin:1em;
+            font-size: 18px !important;
+            text-decoration: none;
+            border: 2px solid olive;
+            transition:all;
+            color:darkslategray;
+            transition: all 0.3s;
+        }
+
+        a:hover{
+            color:white;
+            background-color: darkolivegreen;
+        }
+    </style>
+</head>
+<body>
+        <h2><%-msg%></h2>
+        <a href=<%-refer%> >Go back..</a>
+</body>
+</html>
