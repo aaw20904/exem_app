@@ -1132,6 +1132,7 @@ app.get('/admin', async (req, res) => {
   }
   if (usrInfo.usrId !== ADMINISTRATOR_USRID) {
     res.redirect('/login')
+    return;
   }
   let trig
   try {
