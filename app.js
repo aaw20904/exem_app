@@ -1256,7 +1256,7 @@ app.post('/admin/newticket', async (req, res) => {
     await adminP.pInsertNewTicket(toDb)
   } catch (e) {
     res.status(500)
-    res.render('./operation_result.ejs', { bckg: 'tomato', msg: 'The ticket created successfully!', refer: '\'./edit\'' })
+    res.render('./operation_result.ejs', { bckg: 'tomato', msg: 'The question ID duplicate error!', refer: '\'./edit\'' })
     return
   }
   res.status(201)
