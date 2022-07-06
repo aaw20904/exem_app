@@ -380,26 +380,28 @@ class UserRoute {
   /** A public API function.Return decrypted cookie data - i.e. a userId and a date of issue: {status, usrId, created} */
   /* a @cryptoPassword means a password that exists together with an asymmetric Key */
   async pValidateCryptoCookie (crCookie = Buffer.from('123'), cryptoPassword = 'x512') {
-    const cryptoKeys = await this.readKeys('commonkeys')
-    /* encode  */
-    let rawCookie
-    try {
-      rawCookie = this.decryptData(crCookie, cryptoKeys.privKey, cryptoPassword)
-    } catch (e) {
-      return { status: 'fail', error: e.code }
-    }
-   
-    const sessionState = await this.getSessionStatus(rawCookie.slice(6).readInt32BE(), 'users')
+    return new Promise(async (resolve, reject)=>{
+            const cryptoKeys = await this.readKeys('commonkeys')
+        /* encode  */
+        let rawCookie
+        try {
+          rawCookie = this.decryptData(crCookie, cryptoKeys.privKey, cryptoPassword)
+        } catch (e) {
+          reject({ status: 'fail', error: e.code })
+        }
+      
+        const sessionState = await this.getSessionStatus(rawCookie.slice(6).readInt32BE(), 'users')
 
-    if (sessionState.result !== 1) {
-      return { status: 'unauthorized' }
-    }
-    return {
-      status: 'succ',
-      usrId: rawCookie.slice(6).readUint32BE(),
-      created: new Date(rawCookie.readUInt16BE(0), rawCookie.readInt8(2, 1), rawCookie.readInt8(3, 1), rawCookie.readInt8(4, 1), rawCookie.readInt8(5, 1))
-    }
-  }
+        if (sessionState.result !== 1) {
+         resolve( { status: 'unauthorized' })
+        }
+        resolve({
+          status: 'succ',
+          usrId: rawCookie.slice(6).readUint32BE(),
+          created: new Date(rawCookie.readUInt16BE(0), rawCookie.readInt8(2, 1), rawCookie.readInt8(3, 1), rawCookie.readInt8(4, 1), rawCookie.readInt8(5, 1))
+        });
+  });
+}
 
   /* A Public API function.Activate a session. Compare a hashedPassword with a password.
   If whey matched -  write 'active' into the corresponding user info table .
