@@ -94,8 +94,8 @@
   
   
   .bounce-in-top {
-	-webkit-animation: bounce-in-top 2.1s both;
-	        animation: bounce-in-top 2.1s both;
+	-webkit-animation: bounce-in-top 1.2s both;
+	        animation: bounce-in-top 1.2s both;
 }
 
 /* ----------------------------------------------
