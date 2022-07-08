@@ -414,7 +414,7 @@ class UserRoute {
   * otherwie ersolve {ststys:'user exists'} */
   async pRegisterUser (x = { name: '', password: '',}) {
     /* is the user in db? */
-      let k1 = await  this.isUserInDB(x.usrId,'names');
+      let k1 = await  this.isUserInDB(x.name,'names');
       if (k1) {//if the user exists - resolve a status string*/
           return({status:'fail', result:'exists'});
       }
