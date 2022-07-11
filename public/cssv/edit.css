@@ -1,0 +1,135 @@
+ 
+body{
+    background-color: #eeffee !important;
+    font-family: 'Roboto Condensed', sans-serif !important;
+}
+.fadeInLeft {
+-webkit-animation-name: fadeInLeft;
+animation-name: fadeInLeft;
+-webkit-animation-duration: 1s;
+animation-duration: 1s;
+-webkit-animation-fill-mode: both;
+animation-fill-mode: both;
+}
+@-webkit-keyframes fadeInLeft {
+0% {
+
+-webkit-transform: translate3d(-100%, 0, 0);
+transform: translate3d(-100%, 0, 0);
+}
+100% {
+
+-webkit-transform: none;
+transform: none;
+ }
+}
+@keyframes fadeInLeft {
+0% {
+
+-webkit-transform: translate3d(-100%, 0, 0);
+transform: translate3d(-100%, 0, 0);
+}
+100% {
+
+-webkit-transform: none;
+transform: none;
+}
+} 
+.trueResponse{
+    background-color: #808000 !important;
+    color: #eeFFee !important;
+}
+
+tr{
+    transition:all 0.3s !important;
+    border-color: #a0a080 !important;
+}
+tbody>tr:hover{
+    background-color:#FFA500 !important;
+    
+}
+
+
+tbody{
+    cursor: pointer !important;
+}
+
+
+
+.ticketWrapOk{
+    background-color: #ccffcc !important;
+    border: 2px solid#509950 !important;
+}
+.ticketWrapWarn{
+    background-color: #FFDEAD !important;
+    border: 2px solid#995050 !important;   
+}
+    .ticketWrapWarn>table{
+        color:#500000 !important;
+    }
+.topElement{
+    z-index: 100 !important;
+}
+.clockNode{
+    color: #406040 !important;
+}
+.hideElement{
+    display: none !important;
+}
+.mySpinner{
+    top:20%;
+    left:40%;
+    z-index:200;
+}
+.mainColor{
+    color:#005000 !important;
+}
+.myButtons{
+    text-decoration: none;
+    background-color:#EEE8AA !important;
+    color:indigo !important;
+    padding:0.6em 0.8em 0.6em 0.8em;
+    border:2px solid #DFBA99 !important;
+    border-radius:14px !important;
+    transition: all 0.3s;
+    margin: 8px !important;
+}
+.myButtons:hover{
+   color: #FFDAB9 !important;
+   background-color:indigo !important;
+}
+.myTextareaSm{
+  background-color:#eeffee !important;
+    color:#005000 !important;
+    padding:5px !important;
+    border-radius: 6px !important;
+    display: block;
+    border: 2px solid #ccc;
+    font-size: 14px;
+    font-style: italic;
+    /* box-sizing: padding-box; */
+     overflow:hidden;
+     font-weight: bold;
+     resize: none;
+
+
+}
+.myTextareaBg{
+    background-color:#eeffee !important;
+    color:#005000 !important;
+    padding:5px !important;
+    border-radius: 6px !important;
+     display: block;
+    border: 2px solid #ccc;
+    font-style:oblique;
+    font-size: 14px;
+    /* box-sizing: padding-box; */
+    overflow:hidden;
+    font-weight: bold;
+    resize: none;
+
+}
+.myForm{
+    border: 2px solid olivedrab;
+    padding: 26px 20px 26px 20px !important;
+}

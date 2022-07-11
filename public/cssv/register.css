@@ -1,0 +1,27 @@
+ 
+        body { 
+            min-height: 100vh !important; 
+            background-color:aquamarine !important;
+            font-family: 'Roboto Condensed', sans-serif !important;
+        }
+        
+     
+        .bg-info{
+            background-color:aquamarine !important;
+            color:#004000 !important;
+        }
+        .btn-primary{
+            background-color:#005000 !important;
+            color:#aaff00 !important;
+            transition: 0.3s !important;
+            width:100%;
+        }
+        .btn-primary:hover{
+            color:#005000 !important;
+            background-color:#aaff00 !important;
+            transition: 0.3s !important;
+        }
+        .border-dark{
+            border-color:#00cc00 !important;
+
+        }
