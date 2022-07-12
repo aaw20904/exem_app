@@ -744,7 +744,7 @@ class AdminRoutes {
 
     return new Promise((resolve, reject) => {
       dbc.query(
-        `SELECT usrId AS User_ID, name, COUNT(*) AS Score, CASE WHEN COUNT(*) > (SELECT* FROM score_trigger) THEN 'pass' ELSE 'fail' END status FROM exem NATURAL JOIN  responses NATURAL JOIN users NATURAL JOIN users_names GROUP BY usrId;`, (err, rows) => {
+        `SELECT usrId AS User_ID, name, COUNT(*) AS Score, CASE WHEN COUNT(*) > (SELECT* FROM score_trigger) THEN 'pass' ELSE 'fail' END status FROM exem NATURAL JOIN  responses NATURAL JOIN users NATURAL JOIN users_names GROUP BY name;`, (err, rows) => {
           if (err) { reject(err.code) }
 
           resolve(rows)
