@@ -63,6 +63,10 @@
 
         
 
+        .disabledButton{
+           opacity:0.2 !important;
+        }
+
         .ticketWrapOk{
             background-color: #ccffcc !important;
             border: 2px solid#509950 !important;
@@ -127,8 +131,8 @@
 
 
         .bounce-in-top {
-            -webkit-animation: bounce-in-top 1.5s both;
-                    animation: bounce-in-top 1.5s both;
+            -webkit-animation: bounce-in-top 1.2s both;
+                    animation: bounce-in-top 1.2s both;
         }
 
         .ticketPos{
