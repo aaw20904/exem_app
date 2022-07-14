@@ -80,7 +80,8 @@ class TableManager {
       ],
       keys: ['key1', 'key2', 'key3'],
       tableId: 'mytable1',
-      introduction: 'Marry had'
+      introduction: 'Marry had',
+      responsedKey: null
     },
 
     {
@@ -91,7 +92,8 @@ class TableManager {
       ],
       keys: ['key4', 'key5', 'key6'],
       tableId: 'mytable2',
-      introduction: 'Marry had'
+      introduction: 'Marry had',
+      responsedKey:null
     },
 
     {
@@ -102,7 +104,8 @@ class TableManager {
       ],
       keys: ['key7', 'key8', 'key9'],
       tableId: 'mytable3',
-      introduction: 'Marry had'
+      introduction: 'Marry had',
+      responsedKey:2
     }
 
   ]) {
@@ -158,7 +161,8 @@ class TableManager {
     btnNext.setAttribute('class', 'myButtons btnNext m-2 bounce-in-top')
     btnNext.innerText = 'Next'
     const btnPrev = document.createElement('button')
-    btnPrev.setAttribute('class', 'btn myButtons btnPrev m-2 bounce-in-top')
+    btnPrev.setAttribute('class', 'btn myButtons btnPrev m-2 bounce-in-top disabledButton') ///hideElement
+    //btnPrev.setAttribute('disabled',true);
     btnPrev.innerText = 'Prev'
     btnContainer.appendChild(btnPrev)
     btnContainer.appendChild(btnNext)
@@ -172,7 +176,7 @@ class TableManager {
       // create a table
       const tbl = this.createTableWithSelect(val)
       // wrap a table
-      const wrapped = this.createTicketWrapper(tbl, val.introduction)
+      const wrapped = this.createTicketWrapper(tbl, val.introduction, val.responsedKey)
       // push into an array
       ticketWrappers.push(wrapped)
     })
@@ -223,13 +227,33 @@ class TableManager {
       return new bootstrap.Tooltip(tooltipTriggerEl)
     })
 
+  ///hide / show buttons when thev minimum or maximum value has been reached
+
+    function btnHideMgr(evt, scrollIndex, max){
+      let parent = evt.target.parentNode;
+      if (scrollIndex == max) {
+        parent.querySelector(".btnNext").classList.add('disabledButton') //btnPrev
+       // parent.querySelector(".btnNext").setAttribute('disabled',true);
+       
+      } else {
+         //parent.querySelector(".btnNext").removeAttribute('disabled');
+        parent.querySelector(".btnNext").classList.remove('disabledButton');
+       
+      }
+      if (scrollIndex == 0) {
+        parent.querySelector(".btnPrev").classList.add('disabledButton') 
+       // parent.querySelector(".btnNext").setAttribute('disabled',true);
+      } else {
+        parent.querySelector(".btnPrev").classList.remove('disabledButton');
+       // parent.querySelector(".btnNext").removeAttribute('disabled');
+      }
+    }
+
     /** event listener functions **********************/
     function onNext (evt) {
       if (scrollIndex >= (ticketWrappers.length - 1)) {
         return
       }
-
-      
       /** hide prev node */
       ticketWrappers[scrollIndex].classList.remove('topElement')
       ticketWrappers[scrollIndex].classList.remove('fadeInLeft')
@@ -248,6 +272,7 @@ class TableManager {
       /** set progress */
       const progressVal = ((100 / ticketWrappers.length) * (scrollIndex + 1)) | 0
       subprogress.setAttribute('style', `width:${progressVal}%`)
+      btnHideMgr(evt, scrollIndex, ticketWrappers.length - 1)
     }
 
     function onPrev (evt) {
@@ -259,6 +284,7 @@ class TableManager {
       ticketWrappers[scrollIndex].classList.remove('fadeInLeft')
       /** add index */
       scrollIndex--
+      btnHideMgr(evt, scrollIndex, ticketWrappers.length - 1)
        ///leaf through
       leafThrough(ticketWrappers,scrollIndex)
       /** and show new item */
@@ -375,10 +401,10 @@ class TableManager {
   // create a wrapper for the table- , title- , introduction-, status- nodes
   // adding event listeners for selection
 
-  createTicketWrapper (tableNode, introduction = '123', serverCallback = async () => { return 200 }) {
+  createTicketWrapper (tableNode, introduction = '123', responsedKey = null, serverCallback = async () => { return 200 }) {
     const networkComm = this._communicator
     const wrapper = document.createElement('article')
-    wrapper.setAttribute('class', 'ticketPos d-flex flex-column p-3 align-items-center justify-content-center ticketWrapWarn')
+    wrapper.classList.add( 'ticketPos','d-flex', 'flex-column','p-3', 'align-items-center', 'justify-content-center', /*'ticketWrapWarn'*/);
      
     //'
     // ticket ID 1-st part
@@ -400,8 +426,34 @@ class TableManager {
     firstStr.appendChild(introdN)
     /** II)create an info string */
     const infoStr = document.createElement('div')
-    infoStr.setAttribute('class', 'h6 text-danger infoText m-2')
-    infoStr.innerText = 'The question has not been responded.Please select by clicking/touching '
+    infoStr.classList.add('h6', /*'text-danger'*/ 'infoText', 'm-2');
+    //has the ticket been responded?
+      if (responsedKey) {
+        //set background color
+        wrapper.classList.add('ticketWrapOk');
+        //set color
+        infoStr.classList.add('text-success');
+        //set text
+        infoStr.innerText = 'The question has  been responded later'
+        //find and highlight a question
+         let list = Array.prototype.slice.call(tableNode.querySelector('tbody').children);
+         let selected = list.find(node=>{
+          let cmp = node.getAttribute('data-table-row-key');
+          return Number(cmp) === responsedKey
+        });
+        selected.classList.add('trueResponse');
+                 
+
+      } else {
+       
+           //set background color
+           wrapper.classList.add('ticketWrapWarn');
+           //set color
+           infoStr.classList.add('text-danger');
+           //set text
+          infoStr.innerText = 'The question has not been responded.Please select by clicking/touching '
+      }
+    
     /** *assemble together */
     wrapper.appendChild(firstStr)
     wrapper.appendChild(tableNode)
@@ -431,7 +483,7 @@ class TableManager {
       const progressCircle = document.querySelector('.mySpinner')
       progressCircle.classList.remove('hideElement')
        
-      // a row wich has highlight
+      // a row which has highlight
       const rowNode = wrapperX.querySelector('.trueResponse')
       // let wrapper =  evt.target.parentNode.parentNode.parentNode.parentNode;
 
@@ -539,7 +591,7 @@ class DbCommunicator {
     /** get location */
     let startTime
     let timeOutMs
-    const tickets = []
+    let tickets = []
     let questionTable
     const baseUrl = new URL(document.location.href)
     const currentUrl = `${baseUrl.protocol}//${baseUrl.hostname}:${baseUrl.port}`
@@ -576,6 +628,7 @@ class DbCommunicator {
     timeOutMs = result.timeOutMs
     /** Array [{qId:'value', introduction:'value'}, .... ] */
     questionTable = result.result
+    tickets = this._ticketDataConverterV1(questionTable);
 
     /** output format [
          {
@@ -594,42 +647,59 @@ class DbCommunicator {
 
           ] */
 
-    const stopPoints = []
-    let index = 0
-    for (; index < (questionTable.length - 2);) {
-      if (questionTable[index].qId !== questionTable[index + 1].qId) {
-        stopPoints.push(index)
-      }
 
-      index++
-    }
-
-    stopPoints.push(index + 1)
-
-    /// ///
-    let tableI = 0
-    for (index = 0; index <= (stopPoints.length - 1);) {
-      const tabledata = []
-      const keys = []
-      while (tableI <= stopPoints[index]) {
-        tabledata.push({
-          variant: questionTable[tableI].variant,
-          descr: questionTable[tableI].descr
-        })
-        keys.push(questionTable[tableI].qKey)
-        tableI++
-      }
-      tickets.push({
-        tabledata,
-        keys,
-        tableId: questionTable[tableI - 1].qId,
-        introduction: questionTable[tableI - 1].introduction
-      })
-
-      index++
-    }
 
     return { status: 'succ', result: tickets, startTime, timeOutMs }
+  }
+
+  _ticketDataConverterV1 (resultOfQuery) {
+    
+    let resultTickets = [];
+    let ticketGroup = [];
+    let arrrayIndex = 0;
+    while(arrrayIndex < resultOfQuery.length){
+      //get qId
+      let questionId = resultOfQuery[arrrayIndex].qId;
+      //search by qId 
+      let subarray = resultOfQuery.filter((v,ind)=>{
+          if(v.qId === questionId) {
+            arrrayIndex = ind;
+            return true;
+          } else {
+            return false;
+          }
+      })
+      //push result 
+      ticketGroup.push(subarray);
+      arrrayIndex += 1;
+
+    }
+    /**there are two dimentional array
+     * [
+     *   [{qId=1,...}, {qId=1,...}],
+     *   [{qId=2,...},{qId=2,...}],
+     * ]
+     Let`s assemble these subarrays into whole tickets*/
+    ticketGroup.forEach((v,i)=>{
+      let template = { keys:[], tabledata:[], responsedKey:null };
+      //write introduction and tableId
+      template.introduction = v[0].introduction;
+      template.tableId = v[0].qId;
+        v.forEach(inner=>{
+            //push to keys array
+            template.keys.push(inner.qKey);
+            //push to tabledata array
+            template.tabledata.push({descr: inner.descr, variant: inner.variant});
+            //has a variant been responsed?
+            if (inner.x) {
+              template.responsedKey = inner.qKey;
+            } 
+        })
+        resultTickets.push(template);
+
+    })
+
+    return resultTickets;
   }
 
   /// //send responses to a server
