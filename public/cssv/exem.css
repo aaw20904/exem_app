@@ -65,6 +65,7 @@
 
         .disabledButton{
            opacity:0.2 !important;
+         cursor:none;
         }
 
         .ticketWrapOk{
