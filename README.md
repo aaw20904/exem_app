@@ -11,35 +11,35 @@ This application has developed for testing of knowledge.A user registers and ent
  install mysql/mariadb      
    </li>
    <li>
-      <p>Enter in MYSQL and change a password of 'root':</p>
-   <p>mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'SetRootPasswordHere';</p>
-      <p>mysql> exit</p>
+      Enter in MYSQL and change a password of 'root':<br>
+   <em>mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'SetRootPasswordHere';</em><br>
+      <em>mysql> exit</em>
    </li>
    <li>
-      <p>Run</p> 
-      <p> '$ sudo mysql_secure_installation'</p>
+      Run<br> 
+      <em> '$ sudo mysql_secure_installation'</em>
    </li>
    <li>
-      <p>Login:</p>   
-      <p>$ sudo mysql -u root -p</p>
+      Login:   
+      <em>$ sudo mysql -u root -p</em>
    </li>
    <li>
-      <p>Allow remote access: change a file  /etc/mysql/mysql.conf.d/mysqld.cnf</p>
-      <p>find a string:</p>
-      <p>bind-address            = 127.0.0.1</p>
-      <p> and change IP to 0.0.0.0</p>
+      Allow remote access: change a file  /etc/mysql/mysql.conf.d/mysqld.cnf<br>
+      find a string:<br>
+      <em>bind-address            = 127.0.0.1</em><br>
+      and change IP to 0.0.0.0
    </li>
    <li>
-      <p>Restart a service:</p> 
-      <p><em>$ sudo systemctl restart mysql</em></p>
+      Restart a service:<br> 
+      <em>$ sudo systemctl restart mysql</em>
    </li>
    <li>
-      <p>Run mysql console:</p> 
-      <p>  $ sudo mysql -u root -p -A</p>
+      Run mysql console: <br> 
+      <em> $ sudo mysql -u root -p -A </em>
    </li>
    <li>
-      <p>Create a new remote user:</p>
-   <p>mysql> USE mysql;</p>
+      Create a new remote user:<br>
+   <em>mysql> USE mysql;</em>
        mysql> SELECT user FROM user;<br>
       <em> mysql> CREATE USER 'sammy'@'remote_server_ip' IDENTIFIED BY 'password';</em><br>
    <em>mysql> GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on *.* TO 'sammy'@'remote_host' WITH GRANT OPTION;</em><br>
