@@ -64,13 +64,15 @@ This application has developed for testing of knowledge.A user registers and ent
    </ol>
  
 <h3>server part</h3>
-1)Install nodejs and npm
-2)clone this repository 
-3) change directory to /exem_App
-4) run $ npm install
-5) Change 'localhost' to your remote mysql/mariadb server
-6) Run
-   sudo node app.js
-7)Generate an asymmetric key - run  htps://your_domain_or_ip/keygen?user=1fe5g7q54e5h4f1d4q6j4d6c54gk
-8)Create user with name 'administrator'
-9)Create a service and run the application as a daemon
+<ol>
+   <li>Install nodejs and npm</li>
+   <li>clone this repository </li>
+   <li> change directory to /exem_App</li>
+   <li> run <em>$ npm install</em</li>
+<li>Change 'localhost' to your remote mysql/mariadb server</li>
+<li> Run:<br>
+   <em>$ sudo node app.js</em></li>
+ <li>Generate an asymmetric key - run  htps://your_domain_or_ip/keygen?user=1fe5g7q54e5h4f1d4q6j4d6c54gk</li>
+ <li>Create user with name 'administrator'</li>
+ <li>Create a service and run the application as a daemon</li>
+ </ol>
