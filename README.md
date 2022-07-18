@@ -11,55 +11,55 @@ This application has developed for testing of knowledge.A user registers and ent
  install mysql/mariadb      
    </li>
    <li>
-  Enter in MYSQL and change a password of 'root':
-   mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'SetRootPasswordHere';
-   mysql> exit
+      <p>Enter in MYSQL and change a password of 'root':</p>
+   <p>mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'SetRootPasswordHere';</p>
+      <p>mysql> exit</p>
    </li>
    <li>
-  Run 
-   '$ sudo mysql_secure_installation'
+      <p>Run</p> 
+      <p> '$ sudo mysql_secure_installation'</p>
    </li>
    <li>
-  Login:   
-    $ sudo mysql -u root -p
+      <p>Login:</p>   
+      <p>$ sudo mysql -u root -p</p>
    </li>
    <li>
-  Allow remote access: change a file  /etc/mysql/mysql.conf.d/mysqld.cnf
-   find a string:
-   bind-address            = 127.0.0.1
-   and change IP to 0.0.0.0
+      <p>Allow remote access: change a file  /etc/mysql/mysql.conf.d/mysqld.cnf</p>
+      <p>find a string:</p>
+      <p>bind-address            = 127.0.0.1</p>
+      <p> and change IP to 0.0.0.0</p>
    </li>
    <li>
- Restart a service: 
-  <em>$ sudo systemctl restart mysql</em>
+      <p>Restart a service:</p> 
+      <p><em>$ sudo systemctl restart mysql</em></p>
    </li>
    <li>
-  Run mysql console: 
-  $ sudo mysql -u root -p -A
+      <p>Run mysql console:</p> 
+      <p>  $ sudo mysql -u root -p -A</p>
    </li>
    <li>
- Create a new remote user:
-   mysql> USE mysql;
-   mysql> SELECT user FROM user;
-   mysql> CREATE USER 'sammy'@'remote_server_ip' IDENTIFIED BY 'password';
-   mysql> GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on *.* TO 'sammy'@'remote_host' WITH GRANT OPTION;
-   mysql> FLUSH PRIVILEGES;
-   mysql> exit;
+      <p>Create a new remote user:</p>
+   <p>mysql> USE mysql;</p>
+      <p>mysql> SELECT user FROM user;</p>
+      <p> mysql> CREATE USER 'sammy'@'remote_server_ip' IDENTIFIED BY 'password';</p>
+   <p>mysql> GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on *.* TO 'sammy'@'remote_host' WITH GRANT OPTION;</p>
+      <p>mysql> FLUSH PRIVILEGES;</p>
+      <p>mysql> exit;</p>
    </li>
    <li>
- Allow remote users connecting to the DB server:
-    $ sudo ufw allow from remote_IP_address to any port 3306
-  yoou also allow ti connect from any ip:
-    $ sudo ufw allow 3306
+      <p>Allow remote users connecting to the DB server:</p>
+      <p>$ sudo ufw allow from remote_IP_address to any port 3306</p>
+      <p>you can also allow ti connect from any ip:</p>
+      <p> $ sudo ufw allow 3306 </p>
    </li>
    <li>
-  clone a file 'session_learn_mysql.sql' or 'session_learn_mariadb.sql' and run
-    mysql> create database session_learn;
-    mysql> use session_learn;
+      <p>clone a file 'session_learn_mysql.sql' or 'session_learn_mariadb.sql' and run </p>
+      <p>mysql> create database session_learn;</p>
+      <p>mysql> use session_learn;</p>
    </li>
    <li>
-   import database:
-    mysql> source session_learn_mysql.sql
+      <p>import database:</p>
+      <p>mysql> source session_learn_mysql.sql</p>
    </li>
    </ol>
  
