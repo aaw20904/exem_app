@@ -40,26 +40,26 @@ This application has developed for testing of knowledge.A user registers and ent
    <li>
       <p>Create a new remote user:</p>
    <p>mysql> USE mysql;</p>
-      <p>mysql> SELECT user FROM user;</p>
-      <p> mysql> CREATE USER 'sammy'@'remote_server_ip' IDENTIFIED BY 'password';</p>
-   <p>mysql> GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on *.* TO 'sammy'@'remote_host' WITH GRANT OPTION;</p>
-      <p>mysql> FLUSH PRIVILEGES;</p>
-      <p>mysql> exit;</p>
+       mysql> SELECT user FROM user;<br>
+      <em> mysql> CREATE USER 'sammy'@'remote_server_ip' IDENTIFIED BY 'password';</em><br>
+   <em>mysql> GRANT CREATE, ALTER, DROP, INSERT, UPDATE, DELETE, SELECT, REFERENCES, RELOAD on *.* TO 'sammy'@'remote_host' WITH GRANT OPTION;</em><br>
+      <em>mysql> FLUSH PRIVILEGES;</em><br>
+      <em>mysql> exit;</em>
    </li>
    <li>
-      <p>Allow remote users connecting to the DB server:</p>
-      <p>$ sudo ufw allow from remote_IP_address to any port 3306</p>
-      <p>you can also allow ti connect from any ip:</p>
-      <p> $ sudo ufw allow 3306 </p>
+       Allow remote users connecting to the DB server:<br>
+      <em>$ sudo ufw allow from remote_IP_address to any port 3306</em><br>
+      you can also allow ti connect from any ip:<br>
+      <em> $ sudo ufw allow 3306 </em>
    </li>
    <li>
-      <p>clone a file 'session_learn_mysql.sql' or 'session_learn_mariadb.sql' and run </p>
-      <p>mysql> create database session_learn;</p>
-      <p>mysql> use session_learn;</p>
+      clone a file 'session_learn_mysql.sql' or 'session_learn_mariadb.sql' and run <br>
+      <em>mysql> create database session_learn;</em><br>
+      <em>mysql> use session_learn;</em>
    </li>
    <li>
-      <p>import database:</p>
-      <p>mysql> source session_learn_mysql.sql</p>
+      import database:<br>
+      <em>mysql> source session_learn_mysql.sql</em>
    </li>
    </ol>
  
