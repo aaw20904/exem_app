@@ -4,7 +4,7 @@ This application has developed for testing of knowledge.A user registers and ent
 .When the exem had been finished you can see your results.The administrator can delete users, add/remove/edit tickets, setting a threshold (pass/fail). To enter in the admin console log in and go to 
 '/admin'
 <h2>HOW TO DEPLOY</h2>
-<h3>mysql/mariadb part</h3>
+<h3>A mysql/mariadb part</h3>
 
 <ol>
    <li>
@@ -63,7 +63,7 @@ This application has developed for testing of knowledge.A user registers and ent
    </li>
    </ol>
  
-<h3>server part</h3>
+<h3>A server part</h3>
 <ol>
    <li>Install nodejs and npm</li>
    <li>clone this repository </li>
