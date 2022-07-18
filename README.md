@@ -5,37 +5,40 @@ This application has developed for testing of knowledge.A user registers and ent
 '/admin'
 <h2>HOW TO DEPLOY</h2>
 <h3>mysql/mariadb part</h3>
-1)install mysql/mariadb
+
 <ol>
    <li>
-2) Enter in MYSQL and change a password of 'root':
+ install mysql/mariadb      
+   </li>
+   <li>
+  Enter in MYSQL and change a password of 'root':
    mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'SetRootPasswordHere';
    mysql> exit
    </li>
    <li>
-3) Run 
+  Run 
    '$ sudo mysql_secure_installation'
    </li>
    <li>
-4) Login:   
+  Login:   
     $ sudo mysql -u root -p
    </li>
    <li>
-5) Allow remote access: change a file  /etc/mysql/mysql.conf.d/mysqld.cnf
+  Allow remote access: change a file  /etc/mysql/mysql.conf.d/mysqld.cnf
    find a string:
    bind-address            = 127.0.0.1
    and change IP to 0.0.0.0
    </li>
    <li>
-6)Restart a service: 
+ Restart a service: 
   <em>$ sudo systemctl restart mysql</em>
    </li>
    <li>
-6) Run mysql console: 
+  Run mysql console: 
   $ sudo mysql -u root -p -A
    </li>
-   <ol>
-7)Create a new remote user:
+   <li>
+ Create a new remote user:
    mysql> USE mysql;
    mysql> SELECT user FROM user;
    mysql> CREATE USER 'sammy'@'remote_server_ip' IDENTIFIED BY 'password';
@@ -44,21 +47,21 @@ This application has developed for testing of knowledge.A user registers and ent
    mysql> exit;
    </li>
    <li>
- 8)Allow remote users connecting to the DB server:
+ Allow remote users connecting to the DB server:
     $ sudo ufw allow from remote_IP_address to any port 3306
   yoou also allow ti connect from any ip:
     $ sudo ufw allow 3306
    </li>
    <li>
-  9) clone a file 'session_learn_mysql.sql' or 'session_learn_mariadb.sql' and run
+  clone a file 'session_learn_mysql.sql' or 'session_learn_mariadb.sql' and run
     mysql> create database session_learn;
     mysql> use session_learn;
    </li>
    <li>
-  10) import database:
+   import database:
     mysql> source session_learn_mysql.sql
    </li>
-   </ul>
+   </ol>
  
 <h3>server part</h3>
 1)Install nodejs and npm
