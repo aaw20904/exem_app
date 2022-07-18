@@ -5,9 +5,7 @@ This application has developed for testing of knowledge.A user registers and ent
 '/admin'
 <h2>HOW TO DEPLOY</h2>
 <h3>mysql/mariadb part</h3>
-
 1)install mysql/mariadb
-
 2) Enter in MYSQL and change a password of 'root':
    mysql> ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'SetRootPasswordHere';
    mysql> exit
@@ -20,7 +18,7 @@ This application has developed for testing of knowledge.A user registers and ent
    bind-address            = 127.0.0.1
    and change IP to 0.0.0.0
 6)Restart a service: 
-  $ sudo systemctl restart mysql
+  <em>$ sudo systemctl restart mysql</em>
 6) Run mysql console: 
   $ sudo mysql -u root -p -A
 7)Create a new remote user:
@@ -41,7 +39,7 @@ This application has developed for testing of knowledge.A user registers and ent
     mysql> source session_learn_mysql.sql
 
  
-/**server part**/
+<h3>server part</h3>
 1)Install nodejs and npm
 2)clone this repository 
 3) change directory to /exem_App
