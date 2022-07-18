@@ -582,7 +582,9 @@ class AdminRoutes {
   async getUsers() {
     const dbc = this.data.get(this).dbConnect
     return new Promise((resolve, reject) => {
-      dbc.query('SELECT usrId, name, status, fatt AS fail_login FROM users NATURAL JOIN users_names', (err, rows) => {
+      dbc.query('SELECT usrId, name,'
+      +'CASE WHEN status=1 THEN "IN SYST" ELSE "LOG OFF" END status'+
+      ', fatt AS fail_login FROM users NATURAL JOIN users_names', (err, rows) => {
         if (err) {
           reject(err)
         } else {
@@ -744,7 +746,7 @@ class AdminRoutes {
 
     return new Promise((resolve, reject) => {
       dbc.query(
-        `SELECT usrId AS User_ID, name, COUNT(*) AS Score, CASE WHEN COUNT(*) > (SELECT* FROM score_trigger) THEN 'pass' ELSE 'fail' END status FROM exem NATURAL JOIN  responses NATURAL JOIN users NATURAL JOIN users_names GROUP BY name;`, (err, rows) => {
+        `SELECT usrId AS User_ID, name, COUNT(*) AS Score, CASE WHEN COUNT(*) > (SELECT* FROM score_trigger) THEN 'pass' ELSE 'fail' END status FROM exem NATURAL JOIN  responses NATURAL JOIN users NATURAL JOIN users_names GROUP BY usrId;`, (err, rows) => {
           if (err) { reject(err.code) }
 
           resolve(rows)
